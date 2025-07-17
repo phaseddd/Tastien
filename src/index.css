@@ -1,0 +1,281 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 页面布局样式 */
+.page-container {
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+/* 卡片样式 */
+.glass-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 房间卡片样式 */
+.room-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.room-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.room-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.room-info {
+  margin-bottom: 16px;
+}
+
+.activity-info {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.activity-info span {
+  padding: 2px 8px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.members-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.room-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* 用户头像组样式 */
+.user-avatar-group {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar-group .ant-avatar {
+  border: 2px solid #fff;
+  margin-left: -8px;
+}
+
+.user-avatar-group .ant-avatar:first-child {
+  margin-left: 0;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+  width: 300px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+/* 筛选器样式 */
+.filters-container {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* 统计卡片样式 */
+.stats-card {
+  text-align: center;
+  padding: 20px;
+}
+
+.stats-number {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1890ff;
+  margin-bottom: 4px;
+}
+
+.stats-label {
+  font-size: 14px;
+  color: #8c8c8c;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 10px;
+  }
+  
+  .content-wrapper {
+    margin: 0;
+    border-radius: 0;
+  }
+  
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  
+  .room-actions {
+    flex-direction: column;
+  }
+  
+  .room-actions .ant-btn {
+    width: 100%;
+  }
+}
+
+/* 加载动画 */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+/* 空状态样式 */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #8c8c8c;
+}
+
+.empty-state .ant-empty-image {
+  margin-bottom: 16px;
+}
+
+/* 职业图标样式 */
+.profession-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.profession-knight {
+  background: #e6f7ff;
+  color: #1890ff;
+}
+
+.profession-fighter {
+  background: #fff2e8;
+  color: #fa541c;
+}
+
+.profession-mage {
+  background: #f9f0ff;
+  color: #722ed1;
+}
+
+.profession-sage {
+  background: #f6ffed;
+  color: #52c41a;
+}
+
+/* 玩家类型标签样式 */
+.player-type-master {
+  background: #fff7e6;
+  color: #fa8c16;
+  border: 1px solid #ffd591;
+}
+
+.player-type-normal {
+  background: #e6f7ff;
+  color: #1890ff;
+  border: 1px solid #91d5ff;
+}
+
+.player-type-newbie {
+  background: #f6ffed;
+  color: #52c41a;
+  border: 1px solid #b7eb8f;
+}
