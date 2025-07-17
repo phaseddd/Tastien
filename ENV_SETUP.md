@@ -51,3 +51,5 @@ VITE_GIST_ID=your_actual_gist_id_here
 - 在浏览器开发者工具中检查网络请求
 - 查看控制台错误信息
 - 确认环境变量是否正确加载（可以在代码中临时打印 `import.meta.env`）
+
+- 2025-7-17 触发推送
