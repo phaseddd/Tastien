@@ -112,7 +112,7 @@ export function handleAsyncError(
          return await method.apply(this, args);
        } catch (error) {
          Logger.error(errorMessage, error as Error);
-         throw new AppError(errorMessage, 'ASYNC_ERROR', error as Error);
+         throw new AppError(errorMessage, 'ASYNC_ERROR', 500);
        }
      };
 

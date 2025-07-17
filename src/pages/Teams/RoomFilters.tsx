@@ -140,10 +140,10 @@ const RoomFilters: React.FC<RoomFiltersProps> = ({
               style={{ width: '100%' }}
               allowClear
             >
-              <Option value="recruiting">招募中</Option>
-              <Option value="full">已满员</Option>
-              <Option value="in_progress">进行中</Option>
-              <Option value="completed">已完成</Option>
+              <Option value={TeamStatus.RECRUITING}>招募中</Option>
+              <Option value={TeamStatus.FULL}>已满员</Option>
+              <Option value={TeamStatus.IN_PROGRESS}>进行中</Option>
+              <Option value={TeamStatus.COMPLETED}>已完成</Option>
             </Select>
           </Col>
         </Row>
@@ -177,8 +177,8 @@ const RoomFilters: React.FC<RoomFiltersProps> = ({
                   style={{ width: '100%' }}
                   allowClear
                 >
-                  <Option value="equal">平等组队</Option>
-                  <Option value="carry">大佬带队</Option>
+                  <Option value={TeamMode.EQUAL}>平等组队</Option>
+                  <Option value={TeamMode.CARRY}>大佬带队</Option>
                 </Select>
               </Col>
               
@@ -227,7 +227,7 @@ const RoomFilters: React.FC<RoomFiltersProps> = ({
                     onChange={(value) => handleFilterChange('minCombatPower', value || 0)}
                     style={{ width: '50%' }}
                     formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    parser={value => value!.replace(/\$\s?|(,*)/g, '')}
+                    parser={value => Number(value!.replace(/\$\s?|(,*)/g, ''))}
                   />
                   <InputNumber
                     placeholder="最高战力"
@@ -235,7 +235,7 @@ const RoomFilters: React.FC<RoomFiltersProps> = ({
                     onChange={(value) => handleFilterChange('maxCombatPower', value || 0)}
                     style={{ width: '50%' }}
                     formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    parser={value => value!.replace(/\$\s?|(,*)/g, '')}
+                    parser={value => Number(value!.replace(/\$\s?|(,*)/g, ''))}
                   />
                 </Space.Compact>
               </Col>

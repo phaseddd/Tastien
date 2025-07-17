@@ -22,7 +22,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, compact = false }) => {
           {professionConfig.icon}
         </Avatar>
         <Text strong>{user.gameId}</Text>
-        <Tag color={playerTypeConfig.color} size="small">
+        <Tag color={playerTypeConfig.color}>
           {playerTypeConfig.name}
         </Tag>
       </Space>

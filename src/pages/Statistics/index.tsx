@@ -9,7 +9,6 @@ import {
   Space, 
   Typography,
   Select,
-  DatePicker,
   Button,
   Empty
 } from 'antd';
@@ -27,9 +26,8 @@ import { PROFESSION_CONFIG, PLAYER_TYPE_CONFIG, ACTIVITIES } from '@/constants';
 import { formatTime, getStatusColor, getStatusText } from '@/utils';
 import type { ColumnsType } from 'antd/es/table';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 const { Option } = Select;
-const { RangePicker } = DatePicker;
 
 interface StatisticsData {
   totalRooms: number;
@@ -319,8 +317,8 @@ const Statistics: React.FC = () => {
                 </div>
                 <div>
                   <Text type="secondary">偏好时间: </Text>
-                  <Tag color={user.preferences.isFlexibleTime ? 'green' : 'orange'}>
-                    {user.preferences.isFlexibleTime ? '时间灵活' : '固定时间'}
+                  <Tag color={user.preferences?.isFlexibleTime ? 'green' : 'orange'}>
+                    {user.preferences?.isFlexibleTime ? '时间灵活' : '固定时间'}
                   </Tag>
                 </div>
               </Space>

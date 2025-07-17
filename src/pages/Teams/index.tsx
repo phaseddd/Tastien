@@ -10,7 +10,6 @@ import {
   Empty,
   Spin,
   message,
-  Pagination,
   Modal,
   Input,
   Select
@@ -18,7 +17,6 @@ import {
 import { 
   PlusOutlined, 
   ReloadOutlined, 
-  TeamOutlined,
   SearchOutlined,
   FilterOutlined
 } from '@ant-design/icons';
@@ -27,19 +25,15 @@ import { TeamRoom } from '@/types';
 import RoomCard from '@/components/common/RoomCard';
 import UserCard from '@/components/common/UserCard';
 import CreateRoomModal from './CreateRoomModal';
-import RoomDetailModal from './RoomDetailModal';
 
-const { Content } = Layout;
 const { Title, Text } = Typography;
 const { Option } = Select;
 
 const TeamsPage: React.FC = () => {
   const { user } = useUser();
-  const { rooms, loading, refreshRooms, joinRoom, leaveRoom } = useRooms();
+  const { rooms, refreshRooms, joinRoom } = useRooms();
   const { getRecommendedRooms } = useMatching();
   const [createModalVisible, setCreateModalVisible] = useState(false);
-  const [detailModalVisible, setDetailModalVisible] = useState(false);
-  const [selectedRoom, setSelectedRoom] = useState<TeamRoom | null>(null);
   const [searchText, setSearchText] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -50,11 +44,9 @@ const TeamsPage: React.FC = () => {
     minCombatPower: 0,
     maxCombatPower: 999999
   });
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(12);
 
   // 获取推荐房间
-  const recommendations = user ? getRecommendedRooms(user, rooms) : [];
+  const recommendations = getRecommendedRooms(user);
 
   // 过滤房间
   const filteredRooms = rooms.filter(room => {

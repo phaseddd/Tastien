@@ -123,7 +123,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
               {room.requirements.preferredProfessions.map(profession => {
                 const config = PROFESSION_CONFIG[profession];
                 return (
-                  <Tag key={profession} color={config.color} size="small">
+                  <Tag key={profession} color={config.color}>
                     {config.icon} {config.name}
                   </Tag>
                 );

@@ -20,7 +20,7 @@ import {
   DeleteOutlined,
   ExitOutlined
 } from '@ant-design/icons';
-import { TeamRoom } from '@/types';
+import { TeamRoom, TeamStatus, TeamMode } from '@/types';
 import { useRooms, useUser } from '@/hooks';
 import { PROFESSION_CONFIG, PLAYER_TYPE_CONFIG } from '@/constants';
 import { formatTime, getStatusColor, getStatusText } from '@/utils';
@@ -49,7 +49,7 @@ const RoomDetailModal: React.FC<RoomDetailModalProps> = ({
 
   const isLeader = user?.id === room.leader.id;
   const isMember = room.members.some(member => member.user.id === user?.id);
-  const canJoin = user && !isMember && room.members.length < room.maxMembers && room.status === 'recruiting';
+  const canJoin = user && !isMember && room.members.length < room.maxMembers && room.status === TeamStatus.RECRUITING;
   const canLeave = user && isMember && !isLeader;
 
   const handleJoin = async () => {
@@ -196,8 +196,8 @@ const RoomDetailModal: React.FC<RoomDetailModalProps> = ({
           </Descriptions.Item>
           
           <Descriptions.Item label="模式">
-            <Tag color={room.mode === 'carry' ? 'gold' : 'green'}>
-              {room.mode === 'carry' ? '大佬带队' : '平等组队'}
+            <Tag color={room.mode === TeamMode.CARRY ? 'gold' : 'green'}>
+              {room.mode === TeamMode.CARRY ? '大佬带队' : '平等组队'}
             </Tag>
           </Descriptions.Item>
           

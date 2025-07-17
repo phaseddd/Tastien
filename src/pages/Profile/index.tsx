@@ -16,12 +16,11 @@ import {
 } from 'antd';
 import { UserOutlined, SaveOutlined } from '@ant-design/icons';
 import { useUser } from '@/hooks';
-import { UserProfile, Profession, PlayerType } from '@/types';
+import { UserProfile, PlayerType } from '@/types';
 import { PROFESSION_CONFIG, PLAYER_TYPE_CONFIG } from '@/constants';
 import { validateUserProfile } from '@/utils';
 
 const { Option } = Select;
-const { TextArea } = Input;
 const { Title, Text } = Typography;
 
 const Profile: React.FC = () => {
@@ -50,11 +49,11 @@ const Profile: React.FC = () => {
     setLoading(true);
     try {
       // 根据战力自动分配玩家类型
-      let playerType: PlayerType = 'normal';
+      let playerType: PlayerType = PlayerType.NORMAL;
       if (values.combatPower >= 150000) {
-        playerType = 'master';
+        playerType = PlayerType.MASTER;
       } else if (values.combatPower < 80000) {
-        playerType = 'newbie';
+        playerType = PlayerType.NEWBIE;
       }
 
       const profileData: Partial<UserProfile> = {
@@ -71,7 +70,7 @@ const Profile: React.FC = () => {
       };
 
       // 验证用户信息
-      const errors = validateUserProfile(profileData as UserProfile);
+      const errors = validateUserProfile(profileData);
       if (errors.length > 0) {
         message.error(errors[0]);
         return;
@@ -168,7 +167,7 @@ const Profile: React.FC = () => {
                   style={{ width: '100%' }}
                   placeholder="请输入您的战力"
                   formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  parser={value => value!.replace(/\$\s?|(,*)/g, '')}
+                  parser={value => Number(value!.replace(/\$\s?|(,*)/g, ''))}
                 />
               </Form.Item>
             </Col>

@@ -4,8 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   TeamOutlined, 
   UserOutlined, 
-  BarChartOutlined,
-  HomeOutlined 
+  BarChartOutlined
 } from '@ant-design/icons';
 
 const { Sider } = Layout;

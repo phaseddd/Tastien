@@ -27,8 +27,7 @@ export const useRooms = () => {
     refreshRooms,
     createRoom: actions.createRoom,
     joinRoom: actions.joinRoom,
-    leaveRoom: actions.leaveRoom,
-    deleteRoom: actions.deleteRoom
+    leaveRoom: actions.leaveRoom
   };
 };
 
@@ -141,15 +140,15 @@ export const useLocalStorage = <T>(key: string, defaultValue: T) => {
     }
   });
 
-  const setStoredValue = useCallback((value: T | ((val: T) => T)) => {
+  const setStoredValue = useCallback((newValue: T | ((val: T) => T)) => {
     try {
-      const valueToStore = value instanceof Function ? value(value) : value;
+      const valueToStore = newValue instanceof Function ? newValue(value) : newValue;
       setValue(valueToStore);
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
       console.error(`Error setting localStorage key "${key}":`, error);
     }
-  }, [key]);
+  }, [key, value]);
 
   const removeValue = useCallback(() => {
     try {

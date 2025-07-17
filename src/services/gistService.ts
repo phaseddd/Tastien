@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GistData, TeamRoom, UserProfile } from '@/types';
+import { GistData, TeamRoom, UserProfile, MemberStatus, TeamStatus } from '@/types';
 import { GIST_FILES, APP_CONFIG } from '@/constants';
 
 /**
@@ -140,12 +140,12 @@ export class GistService {
       room.members.push({
         user,
         joinedAt: new Date().toISOString(),
-        status: 'active'
+        status: MemberStatus.ACTIVE
       });
 
       // 如果房间满员，更新状态
       if (room.members.length >= room.maxMembers) {
-        room.status = 'full';
+        room.status = TeamStatus.FULL;
       }
 
       await this.updateRoom(roomId, room);
@@ -172,9 +172,9 @@ export class GistService {
 
       // 如果是队长离开，解散房间
       if (room.leader.id === userId) {
-        room.status = 'cancelled';
-      } else if (room.status === 'full' && room.members.length < room.maxMembers) {
-        room.status = 'recruiting';
+        room.status = TeamStatus.CANCELLED;
+      } else if (room.status === TeamStatus.FULL && room.members.length < room.maxMembers) {
+        room.status = TeamStatus.RECRUITING;
       }
 
       await this.updateRoom(roomId, room);

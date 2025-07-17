@@ -12,7 +12,7 @@ import StatisticsPage from '@/pages/Statistics';
 const { Content } = Layout;
 
 const App: React.FC = () => {
-  const { user, isLoggedIn } = useUser();
+  const { isLoggedIn } = useUser();
   const { error, clearError } = useLoading();
 
   // 显示错误消息

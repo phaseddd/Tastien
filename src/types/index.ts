@@ -55,6 +55,9 @@ export interface UserPreferences {
   autoJoin: boolean;          // 自动加入匹配的队伍
   notifications: boolean;     // 接收通知
   preferredActivities: ActivityType[]; // 偏好活动
+  preferredTimeSlots?: string[]; // 偏好时间段
+  preferredDifficulties?: string[]; // 偏好难度
+  isFlexibleTime?: boolean;   // 时间是否灵活
 }
 
 // 信誉评分接口

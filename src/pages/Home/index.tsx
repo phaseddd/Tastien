@@ -14,7 +14,7 @@ import {
 import { UserOutlined, TrophyOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '@/hooks';
-import { UserProfile, Profession, PlayerType } from '@/types';
+import { UserProfile, PlayerType } from '@/types';
 import { PROFESSION_CONFIG, PLAYER_TYPE_CONFIG } from '@/constants';
 import { generateId, getBJTime, validateUserProfile } from '@/utils';
 
@@ -170,7 +170,7 @@ const HomePage: React.FC = () => {
               placeholder="请输入您的战力"
               style={{ width: '100%' }}
               formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              parser={value => value!.replace(/\$\s?|(,*)/g, '')}
+              parser={value => Number(value!.replace(/\$\s?|(,*)/g, ''))}
             />
           </Form.Item>
 

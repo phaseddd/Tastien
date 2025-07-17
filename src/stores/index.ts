@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { UserProfile, TeamRoom, ActivityConfig, AppState, MemberStatus } from '@/types';
+import { UserProfile, TeamRoom, AppState, MemberStatus } from '@/types';
 import { ACTIVITIES, STORAGE_KEYS } from '@/constants';
 import { gistService } from '@/services/gistService';
 import { generateId, getBJTime } from '@/utils';
@@ -72,7 +72,7 @@ export const useAppStore = create<AppState>()(
           }
         },
 
-        createRoom: async (roomData) => {
+        createRoom: async (roomData: Omit<TeamRoom, 'id' | 'leader' | 'members' | 'createdAt' | 'updatedAt'>) => {
           const { user } = get();
           if (!user) {
             set({ error: '请先设置用户信息' });

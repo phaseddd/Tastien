@@ -14,7 +14,7 @@ import {
 } from 'antd';
 import { TeamOutlined } from '@ant-design/icons';
 import { useRooms, useUser } from '@/hooks';
-import { TeamRoom, TeamMode, TeamStatus, ActivityType } from '@/types';
+import { TeamRoom, TeamMode, TeamStatus } from '@/types';
 import { ACTIVITIES, PROFESSION_CONFIG } from '@/constants';
 import { validateTeamRoom } from '@/utils';
 
@@ -67,8 +67,8 @@ const CreateRoomModal: React.FC<CreateRoomModalProps> = ({
           timeSlots: [], // 暂时为空，后续可以添加时间选择
           isFlexible: values.flexibleTime || true
         },
-        status: 'recruiting' as TeamStatus,
-        mode: values.mode || 'equal' as TeamMode
+        status: TeamStatus.RECRUITING,
+        mode: values.mode || TeamMode.EQUAL
       };
 
       // 验证房间数据
@@ -111,7 +111,7 @@ const CreateRoomModal: React.FC<CreateRoomModalProps> = ({
         layout="vertical"
         onFinish={handleSubmit}
         initialValues={{
-          mode: 'equal',
+          mode: TeamMode.EQUAL,
           flexibleTime: true,
           playerTypes: ['master', 'normal', 'newbie']
         }}
@@ -176,7 +176,7 @@ const CreateRoomModal: React.FC<CreateRoomModalProps> = ({
           rules={[{ required: true, message: '请选择组队模式' }]}
         >
           <Select>
-            <Option value="equal">
+            <Option value={TeamMode.EQUAL}>
               <div>
                 <div>平等组队</div>
                 <Text type="secondary" style={{ fontSize: '12px' }}>
@@ -184,7 +184,7 @@ const CreateRoomModal: React.FC<CreateRoomModalProps> = ({
                 </Text>
               </div>
             </Option>
-            <Option value="carry">
+            <Option value={TeamMode.CARRY}>
               <div>
                 <div>大佬带队</div>
                 <Text type="secondary" style={{ fontSize: '12px' }}>
