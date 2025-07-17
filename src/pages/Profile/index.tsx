@@ -259,7 +259,7 @@ const Profile: React.FC = () => {
               <Card size="small">
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#1890ff' }}>
-                    {user.reputation.score.toFixed(1)}
+                    {user.reputation?.overall?.toFixed(1) || '0.0'}
                   </div>
                   <div style={{ color: '#666' }}>信誉评分</div>
                 </div>
@@ -270,7 +270,7 @@ const Profile: React.FC = () => {
               <Card size="small">
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#52c41a' }}>
-                    {user.reputation.totalGames}
+                    {user.reputation?.participationCount || 0}
                   </div>
                   <div style={{ color: '#666' }}>参与次数</div>
                 </div>
@@ -281,7 +281,7 @@ const Profile: React.FC = () => {
               <Card size="small">
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#fa8c16' }}>
-                    {user.reputation.leaderGames}
+                    {user.reputation?.carryCount || 0}
                   </div>
                   <div style={{ color: '#666' }}>带队次数</div>
                 </div>

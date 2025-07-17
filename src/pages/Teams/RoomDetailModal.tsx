@@ -289,7 +289,7 @@ const RoomDetailModal: React.FC<RoomDetailModalProps> = ({
                       战力: {member.user.combatPower.toLocaleString()}
                     </Text>
                     <Text type="secondary">
-                      信誉: {member.user.reputation.score.toFixed(1)}
+                      信誉: {member.user.reputation.overall.toFixed(1)}
                     </Text>
                     <Text type="secondary">
                       加入时间: {formatTime(member.joinedAt)}

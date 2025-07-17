@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { UserProfile, TeamRoom, ActivityConfig, AppState } from '@/types';
+import { UserProfile, TeamRoom, ActivityConfig, AppState, MemberStatus } from '@/types';
 import { ACTIVITIES, STORAGE_KEYS } from '@/constants';
 import { gistService } from '@/services/gistService';
 import { generateId, getBJTime } from '@/utils';
@@ -88,7 +88,7 @@ export const useAppStore = create<AppState>()(
               members: [{
                 user,
                 joinedAt: getBJTime().toISOString(),
-                status: 'active'
+                status: MemberStatus.ACTIVE
               }],
               createdAt: getBJTime().toISOString(),
               updatedAt: getBJTime().toISOString()

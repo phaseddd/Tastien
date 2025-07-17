@@ -104,7 +104,7 @@ const CreateRoomModal: React.FC<CreateRoomModalProps> = ({
       onCancel={onCancel}
       footer={null}
       width={600}
-      destroyOnClose
+      destroyOnHidden
     >
       <Form
         form={form}

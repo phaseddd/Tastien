@@ -2,12 +2,30 @@ import axios from 'axios';
 import { GistData, TeamRoom, UserProfile } from '@/types';
 import { GIST_FILES, APP_CONFIG } from '@/constants';
 
+/**
+ * 从Gist URL中提取Gist ID
+ * @param gistIdOrUrl Gist ID或完整的Gist URL
+ * @returns 纯净的Gist ID
+ */
+function extractGistId(gistIdOrUrl: string): string {
+  // 如果是完整的GitHub Gist URL，提取ID部分
+  const gistUrlPattern = /(?:https?:\/\/)?(?:gist\.)?github\.com\/[^\/]+\/([a-f0-9]+)/i;
+  const match = gistIdOrUrl.match(gistUrlPattern);
+  
+  if (match) {
+    return match[1];
+  }
+  
+  // 如果不是URL格式，直接返回（假设已经是ID）
+  return gistIdOrUrl;
+}
+
 export class GistService {
   private readonly gistId: string;
   private readonly githubToken?: string;
 
   constructor(gistId: string, githubToken?: string) {
-    this.gistId = gistId;
+    this.gistId = extractGistId(gistId);
     this.githubToken = githubToken;
   }
 
@@ -266,6 +284,6 @@ export class GistService {
 
 // 默认的Gist服务实例（需要配置Gist ID）
 export const gistService = new GistService(
-  process.env.VITE_GIST_ID || 'your-gist-id-here',
-  process.env.VITE_GITHUB_TOKEN
+  import.meta.env.VITE_GIST_ID || '',
+  import.meta.env.VITE_GITHUB_TOKEN || ''
 );

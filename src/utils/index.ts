@@ -3,6 +3,7 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import { v4 as uuidv4 } from 'uuid';
 import { TimeSlot, UserProfile, TeamRoom } from '@/types';
+import { Logger } from './errorHandling';
 
 // 扩展dayjs插件
 dayjs.extend(utc);
@@ -11,15 +12,37 @@ dayjs.extend(timezone);
 /**
  * 获取北京时间
  */
-export const getBJTime = (): dayjs.Dayjs => {
-  return dayjs().utcOffset(8); // UTC+8
+export const getBJTime = (date?: string | Date): dayjs.Dayjs => {
+  return dayjs(date).tz('Asia/Shanghai');
 };
 
 /**
  * 格式化时间显示
  */
-export const formatTime = (time: string | dayjs.Dayjs, format = 'YYYY-MM-DD HH:mm'): string => {
-  return dayjs(time).utcOffset(8).format(format);
+export const formatTime = (time: string | dayjs.Dayjs | Date, format = 'YYYY-MM-DD HH:mm'): string => {
+  return getBJTime(time as string | Date).format(format);
+};
+
+/**
+ * 计算时间差（分钟）
+ */
+export const getTimeDiff = (start: string | Date, end: string | Date): number => {
+  return getBJTime(end).diff(getBJTime(start), 'minute');
+};
+
+/**
+ * 检查时间是否在范围内
+ */
+export const isTimeInRange = (
+  time: string | Date,
+  startTime: string,
+  endTime: string
+): boolean => {
+  const target = getBJTime(time);
+  const start = getBJTime().hour(parseInt(startTime.split(':')[0])).minute(parseInt(startTime.split(':')[1]));
+  const end = getBJTime().hour(parseInt(endTime.split(':')[0])).minute(parseInt(endTime.split(':')[1]));
+  
+  return target.isAfter(start) && target.isBefore(end);
 };
 
 /**
@@ -75,11 +98,13 @@ export const debounce = <T extends (...args: any[]) => any>(
   func: T,
   wait: number
 ): ((...args: Parameters<T>) => void) => {
-  let timeout: NodeJS.Timeout;
+  let timeout: number | undefined;
   
   return (...args: Parameters<T>) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
+    if (timeout !== undefined) {
+      clearTimeout(timeout);
+    }
+    timeout = window.setTimeout(() => func(...args), wait);
   };
 };
 
@@ -106,6 +131,147 @@ export const throttle = <T extends (...args: any[]) => any>(
  */
 export const deepClone = <T>(obj: T): T => {
   return JSON.parse(JSON.stringify(obj));
+};
+
+/**
+ * 数组去重
+ */
+export const uniqueArray = <T>(array: T[], key?: keyof T): T[] => {
+  if (!key) {
+    return [...new Set(array)];
+  }
+  const seen = new Set();
+  return array.filter(item => {
+    const value = item[key];
+    if (seen.has(value)) {
+      return false;
+    }
+    seen.add(value);
+    return true;
+  });
+};
+
+/**
+ * 数组分组
+ */
+export const groupBy = <T, K extends keyof T>(array: T[], key: K): Record<string, T[]> => {
+  return array.reduce((groups, item) => {
+    const group = String(item[key]);
+    groups[group] = groups[group] || [];
+    groups[group].push(item);
+    return groups;
+  }, {} as Record<string, T[]>);
+};
+
+/**
+ * 文件大小格式化
+ */
+export const formatFileSize = (bytes: number): string => {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+};
+
+/**
+ * URL参数解析
+ */
+export const parseUrlParams = (url: string): Record<string, string> => {
+  const params: Record<string, string> = {};
+  const urlObj = new URL(url);
+  urlObj.searchParams.forEach((value, key) => {
+    params[key] = value;
+  });
+  return params;
+};
+
+/**
+ * 生成随机颜色
+ */
+export const generateRandomColor = (): string => {
+  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+};
+
+/**
+ * 检查是否为移动设备
+ */
+export const isMobile = (): boolean => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
+
+/**
+ * 复制到剪贴板
+ */
+export const copyToClipboard = async (text: string): Promise<boolean> => {
+  try {
+    await navigator.clipboard.writeText(text);
+    Logger.info('Text copied to clipboard');
+    return true;
+  } catch (error) {
+    Logger.error('Failed to copy text to clipboard', error as Error);
+    return false;
+  }
+};
+
+/**
+ * 下载文件
+ */
+export const downloadFile = (data: string, filename: string, type: string = 'text/plain'): void => {
+  const blob = new Blob([data], { type });
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url);
+};
+
+/**
+ * 本地存储工具
+ */
+export const storage = {
+  get: <T>(key: string, defaultValue?: T): T | null => {
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : defaultValue || null;
+    } catch (error) {
+      Logger.error(`Error reading localStorage key "${key}"`, error as Error);
+      return defaultValue || null;
+    }
+  },
+  
+  set: <T>(key: string, value: T): boolean => {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (error) {
+      Logger.error(`Error setting localStorage key "${key}"`, error as Error);
+      return false;
+    }
+  },
+  
+  remove: (key: string): boolean => {
+    try {
+      localStorage.removeItem(key);
+      return true;
+    } catch (error) {
+      Logger.error(`Error removing localStorage key "${key}"`, error as Error);
+      return false;
+    }
+  },
+  
+  clear: (): boolean => {
+    try {
+      localStorage.clear();
+      return true;
+    } catch (error) {
+      Logger.error('Error clearing localStorage', error as Error);
+      return false;
+    }
+  }
 };
 
 /**

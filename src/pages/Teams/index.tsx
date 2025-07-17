@@ -10,12 +10,17 @@ import {
   Empty,
   Spin,
   message,
-  Pagination
+  Pagination,
+  Modal,
+  Input,
+  Select
 } from 'antd';
 import { 
   PlusOutlined, 
   ReloadOutlined, 
-  TeamOutlined
+  TeamOutlined,
+  SearchOutlined,
+  FilterOutlined
 } from '@ant-design/icons';
 import { useRooms, useUser, useMatching } from '@/hooks';
 import { TeamRoom } from '@/types';
@@ -23,33 +28,53 @@ import RoomCard from '@/components/common/RoomCard';
 import UserCard from '@/components/common/UserCard';
 import CreateRoomModal from './CreateRoomModal';
 import RoomDetailModal from './RoomDetailModal';
-import RoomFilters, { FilterOptions } from './RoomFilters';
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
+const { Option } = Select;
 
-const Teams: React.FC = () => {
+const TeamsPage: React.FC = () => {
   const { user } = useUser();
   const { rooms, loading, refreshRooms, joinRoom, leaveRoom } = useRooms();
   const { getRecommendedRooms } = useMatching();
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [detailModalVisible, setDetailModalVisible] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<TeamRoom | null>(null);
-  const [filters, setFilters] = useState<FilterOptions>({
-    search: '',
+  const [searchText, setSearchText] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [filters, setFilters] = useState({
     activity: '',
-    difficulty: '',
-    mode: '',
     status: '',
-    profession: '',
-    playerType: '',
+    mode: '',
     minCombatPower: 0,
-    maxCombatPower: 0,
-    hasSlots: false,
-    isFlexibleTime: false
+    maxCombatPower: 999999
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(12);
+
+  // 获取推荐房间
+  const recommendations = user ? getRecommendedRooms(user, rooms) : [];
+
+  // 过滤房间
+  const filteredRooms = rooms.filter(room => {
+    if (filters.activity && room.activity.type !== filters.activity) {
+      return false;
+    }
+    if (filters.status && room.status !== filters.status) {
+      return false;
+    }
+    if (filters.mode && room.mode !== filters.mode) {
+      return false;
+    }
+    if (room.requirements.minCombatPower < filters.minCombatPower) {
+      return false;
+    }
+    if (room.requirements.minCombatPower > filters.maxCombatPower) {
+      return false;
+    }
+    return true;
+  });
 
   // 页面加载时获取房间数据
   useEffect(() => {

@@ -105,7 +105,7 @@ const Statistics: React.FC = () => {
       totalRooms: filteredRooms.length,
       completedRooms: completedRooms.length,
       leaderRooms: leaderRooms.length,
-      averageRating: user.reputation.score,
+      averageRating: user.reputation.overall,
       favoriteActivity,
       totalPlayTime,
       recentRooms: filteredRooms.slice(0, 10)
@@ -283,7 +283,7 @@ const Statistics: React.FC = () => {
                 <div>
                   <Text type="secondary">信誉评分: </Text>
                   <Text strong style={{ color: '#1890ff' }}>
-                    {user.reputation.score.toFixed(1)}
+                    {user.reputation.overall.toFixed(1)}
                   </Text>
                 </div>
               </Space>
