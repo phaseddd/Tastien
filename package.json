@@ -17,7 +17,7 @@
     "preview": "vite preview",
     "analyze": "npm run build && npx vite-bundle-analyzer dist",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",

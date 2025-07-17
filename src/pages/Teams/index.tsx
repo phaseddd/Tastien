@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Layout, 
   Card, 
   Button, 
   Space, 
@@ -21,7 +20,6 @@ import {
   FilterOutlined
 } from '@ant-design/icons';
 import { useRooms, useUser, useMatching } from '@/hooks';
-import { TeamRoom } from '@/types';
 import RoomCard from '@/components/common/RoomCard';
 import UserCard from '@/components/common/UserCard';
 import CreateRoomModal from './CreateRoomModal';
@@ -36,7 +34,7 @@ const TeamsPage: React.FC = () => {
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [showFilters, setShowFilters] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing] = useState(false);
   const [filters, setFilters] = useState({
     activity: '',
     status: '',
@@ -46,7 +44,7 @@ const TeamsPage: React.FC = () => {
   });
 
   // 获取推荐房间
-  const recommendations = getRecommendedRooms(user);
+  const recommendations = user ? getRecommendedRooms(user, rooms) : [];
 
   // 过滤房间
   const filteredRooms = rooms.filter(room => {

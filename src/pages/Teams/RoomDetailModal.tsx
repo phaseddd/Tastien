@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   Modal, 
   Descriptions, 
@@ -17,8 +17,7 @@ import {
   UserOutlined, 
   ClockCircleOutlined,
   TrophyOutlined,
-  DeleteOutlined,
-  ExitOutlined
+  LogoutOutlined
 } from '@ant-design/icons';
 import { TeamRoom, TeamStatus, TeamMode } from '@/types';
 import { useRooms, useUser } from '@/hooks';
@@ -42,7 +41,7 @@ const RoomDetailModal: React.FC<RoomDetailModalProps> = ({
   onSuccess
 }) => {
   const { user } = useUser();
-  const { joinRoom, leaveRoom, deleteRoom } = useRooms();
+  const { joinRoom, leaveRoom } = useRooms();
   const [loading, setLoading] = useState(false);
 
   if (!room) return null;
@@ -87,20 +86,6 @@ const RoomDetailModal: React.FC<RoomDetailModalProps> = ({
     }
   };
 
-  const handleDelete = async () => {
-    setLoading(true);
-    try {
-      await deleteRoom(room.id);
-      message.success('房间已删除');
-      onSuccess();
-    } catch (error) {
-      console.error('删除房间失败:', error);
-      message.error('删除房间失败');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const getActionButtons = () => {
     const buttons = [];
 
@@ -128,30 +113,10 @@ const RoomDetailModal: React.FC<RoomDetailModalProps> = ({
           cancelText="取消"
         >
           <Button 
-            icon={<ExitOutlined />}
+            icon={<LogoutOutlined />}
             loading={loading}
           >
             离开队伍
-          </Button>
-        </Popconfirm>
-      );
-    }
-
-    if (isLeader) {
-      buttons.push(
-        <Popconfirm
-          key="delete"
-          title="确定要删除房间吗？此操作不可恢复！"
-          onConfirm={handleDelete}
-          okText="确定"
-          cancelText="取消"
-        >
-          <Button 
-            danger 
-            icon={<DeleteOutlined />}
-            loading={loading}
-          >
-            删除房间
           </Button>
         </Popconfirm>
       );

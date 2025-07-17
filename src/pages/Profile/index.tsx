@@ -62,6 +62,8 @@ const Profile: React.FC = () => {
         combatPower: values.combatPower,
         playerType,
         preferences: {
+          autoJoin: values.preferences?.autoJoin || false,
+          notifications: values.preferences?.notifications || true,
           preferredActivities: values.preferences?.preferredActivities || [],
           preferredTimeSlots: values.preferences?.preferredTimeSlots || [],
           preferredDifficulties: values.preferences?.preferredDifficulties || [],

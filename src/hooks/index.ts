@@ -178,7 +178,7 @@ export const useAutoRefresh = (callback: () => void, interval: number = 30000) =
 
   // 使用useEffect处理定时器
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
+    let intervalId: number;
     
     if (isActive) {
       intervalId = setInterval(callback, interval);

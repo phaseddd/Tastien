@@ -14,11 +14,10 @@ import {
 } from 'antd';
 import { TeamOutlined } from '@ant-design/icons';
 import { useRooms, useUser } from '@/hooks';
-import { TeamRoom, TeamMode, TeamStatus } from '@/types';
+import { TeamMode, TeamStatus } from '@/types';
 import { ACTIVITIES, PROFESSION_CONFIG } from '@/constants';
 import { validateTeamRoom } from '@/utils';
 
-const { TextArea } = Input;
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -57,6 +56,8 @@ const CreateRoomModal: React.FC<CreateRoomModalProps> = ({
         title: values.title,
         activity,
         difficulty: values.difficulty,
+        leader: user,
+        members: [],
         maxMembers: values.maxMembers || activity.maxPlayers,
         requirements: {
           minCombatPower: values.minCombatPower || activity.minCombatPower,
@@ -220,7 +221,6 @@ const CreateRoomModal: React.FC<CreateRoomModalProps> = ({
             placeholder={`默认 ${selectedActivityConfig?.minCombatPower || 50000}`}
             style={{ width: '100%' }}
             formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            parser={value => value!.replace(/\$\s?|(,*)/g, '')}
           />
         </Form.Item>
 

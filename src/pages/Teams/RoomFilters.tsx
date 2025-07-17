@@ -12,7 +12,7 @@ import {
   Typography
 } from 'antd';
 import { SearchOutlined, FilterOutlined, ClearOutlined } from '@ant-design/icons';
-import { TeamRoom, ActivityType, TeamMode, TeamStatus, Profession, PlayerType } from '@/types';
+import { TeamMode, TeamStatus, Profession, PlayerType } from '@/types';
 import { ACTIVITIES, PROFESSION_CONFIG, PLAYER_TYPE_CONFIG } from '@/constants';
 
 const { Option } = Select;
