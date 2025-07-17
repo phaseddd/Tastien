@@ -38,17 +38,50 @@ npm install
 
 ### 环境配置
 
+⚠️ **重要**: 项目需要配置GitHub相关环境变量才能正常使用数据存储功能。
+
 1. 复制环境变量模板：
 ```bash
-cp .env.example .env.local
+cp .env.example .env
 ```
 
 2. 配置GitHub相关信息：
+
+#### 获取GitHub Personal Access Token
+1. 访问 [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens)
+2. 点击 "Generate new token (classic)"
+3. 设置token名称，如 "Tastien App"
+4. 选择权限：`gist` (创建和管理gist)
+5. 生成并复制token
+
+#### 创建Gist存储
+1. 访问 [GitHub Gist](https://gist.github.com/)
+2. 创建一个新的private gist
+3. 从URL中获取Gist ID
+
+#### 配置.env文件
 ```env
-VITE_GITHUB_TOKEN=your_github_token_here
-VITE_GITHUB_USERNAME=your_github_username
-VITE_GIST_ID=your_gist_id_here
+# GitHub配置
+VITE_GITHUB_TOKEN=your_actual_github_token
+VITE_GITHUB_USERNAME=your_github_username  
+VITE_GIST_ID=your_actual_gist_id
+
+# 应用配置
+VITE_APP_NAME=Tastien
+VITE_APP_VERSION=1.0.0
+VITE_BASE_URL=/Tastien/
+
+# 开发配置
+VITE_DEV_MODE=true
+VITE_LOG_LEVEL=debug
 ```
+
+📖 **详细配置指南**: 请参考项目根目录下的 `ENV_SETUP.md` 文件获取完整的配置说明。
+
+🔒 **安全提醒**: 
+- `.env` 文件已被Git忽略，不会被提交到代码仓库
+- 请妥善保管你的GitHub Personal Access Token
+- 定期轮换token以确保安全
 
 ### 开发模式
 

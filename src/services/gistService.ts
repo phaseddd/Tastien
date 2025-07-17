@@ -282,8 +282,35 @@ export class GistService {
   }
 }
 
+// 环境变量验证和配置
+const validateConfig = () => {
+  const gistId = import.meta.env.VITE_GIST_ID;
+  const githubToken = import.meta.env.VITE_GITHUB_TOKEN;
+  
+  if (!gistId || gistId === 'your_gist_id_here') {
+    console.warn('⚠️ VITE_GIST_ID 未配置或使用默认值，请在 .env 文件中设置正确的 Gist ID');
+  }
+  
+  if (!githubToken || githubToken === 'your_github_token_here') {
+    console.warn('⚠️ VITE_GITHUB_TOKEN 未配置或使用默认值，请在 .env 文件中设置正确的 GitHub Token');
+  }
+  
+  return {
+    gistId: gistId || '',
+    githubToken: githubToken || '',
+    isConfigured: !!(gistId && githubToken && 
+                     gistId !== 'your_gist_id_here' && 
+                     githubToken !== 'your_github_token_here')
+  };
+};
+
 // 默认的Gist服务实例（需要配置Gist ID）
+const config = validateConfig();
+
 export const gistService = new GistService(
-  import.meta.env.VITE_GIST_ID || '',
-  import.meta.env.VITE_GITHUB_TOKEN || ''
+  config.gistId,
+  config.githubToken
 );
+
+// 导出配置状态，供其他组件检查
+export const isGistServiceConfigured = config.isConfigured;
